@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 @Component({
-  standalone: true, // allows the component to exist independently without an NgModule
+  standalone: true,
   selector: 'app-user-input',
-  imports: [CommonModule, FormsModule, TitleCasePipe], // CommonModule provides Angular directives like @if. FormsModule enables two-way binding with [(ngModel)]. TitleCasePipe formats text to Title Case (e.g., "red apple" -> "Red Apple").
+  imports: [CommonModule, FormsModule, TitleCasePipe],
   template: `
     <form (ngSubmit)="onSubmit()">
       <label for="name">Name:</label>
@@ -13,7 +14,9 @@ import { FormsModule } from '@angular/forms';
       <label for="color">Favorite Color:</label>
       <input id="color" [(ngModel)]="favoriteColor" name="color" required />
 
-      <button type="submit">Submit</button>
+      @if (name && favoriteColor) {
+        <button type="submit">Submit</button>
+      }
     </form>
 
     <p *ngIf="name && favoriteColor">
@@ -31,17 +34,7 @@ export class UserInputComponent {
   name = '';
   favoriteColor = '';
 
-
   onSubmit() {
     console.log(`Name: ${this.name}, Color: ${this.favoriteColor}`);
   }
 }
-
-
-// Notes about Dynamic Display and Two-Way Binding
-
-  // Dynamic Display:
-    // Uses @if to display content only when name and favoriteColor are set.
-
-  // Two-Way Binding:
-    // Synchronizes form input values with the name and favoriteColor variables.
